@@ -3,10 +3,14 @@ import tensorflow as tf
 import numpy as np
 from PIL import Image
 import os
-
+from pathlib import Path
 app = Flask(__name__)
 UPLOAD_FOLDER = 'static/uploads'
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+
+UPLOAD_FOLDER = Path("static/uploads")
+UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
+
 
 # Load model
 model = tf.keras.models.load_model("cat_dog_vit_model")
@@ -24,7 +28,7 @@ def index():
         file = request.files["file"]
         if file:
             filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-            file.save(filepath)
+            file.save(str(filepath))
             prediction = predict_image(filepath)
     return render_template("index.html", prediction=prediction)
 
