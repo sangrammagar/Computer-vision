@@ -4,13 +4,15 @@ import numpy as np
 from PIL import Image
 import os
 from pathlib import Path
+
+from pathlib import Path
 app = Flask(__name__)
-UPLOAD_FOLDER = 'static/uploads'
+
 
 
 UPLOAD_FOLDER = Path("static/uploads")
-UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
-
+if not UPLOAD_FOLDER.exists():
+    UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
 # Load model
 model = tf.keras.models.load_model("cat_dog_vit_model")
